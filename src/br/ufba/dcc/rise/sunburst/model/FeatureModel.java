@@ -4,29 +4,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class FeatureModel {
+public class FeatureModel extends Tree {
 
-	private Feature root;
-	private List<Constraint> constraints;
+	private List<CrossTreeConstraint> constraints;
 
 	public FeatureModel(){
-		this(new Feature(), new ArrayList<Constraint>());
+		this(new Feature(), new ArrayList<CrossTreeConstraint>());
 	}
 	
 	public FeatureModel(Feature root) {
-		this(root, new ArrayList<Constraint>());
+		this(root, new ArrayList<CrossTreeConstraint>());
 	}
 	
-	public FeatureModel(Feature root, List<Constraint> constraints) {
-		this.root = root;
+	public FeatureModel(Feature root, List<CrossTreeConstraint> constraints) {
+//		this.root = root;
+		super(root);
 		this.constraints = constraints;
 	}
 
-	public Feature getRoot() {
-		return this.root;
-	}
-
-	public List<Constraint> getConstraints() {
+	public List<CrossTreeConstraint> getConstraints() {
 		return this.constraints;
 	}
 
@@ -34,32 +30,10 @@ public class FeatureModel {
 		int numFeatures;
 		if(this.root==null) return 0;
 		else if(this.root.hasChildren())
-			numFeatures = this.root.getFamilySize() +1;
+			numFeatures = this.root.getTreeSize() +1;
 		else
 			return 1;
 		return numFeatures;
 	}
 
-	@Override
-	public String toString(){
-		return printTree(this.root);
-	}
-	
-	private String printTree(Feature root){
-		StringBuilder result = new StringBuilder();
-		String NEW_LINE = System.getProperty("line.separator");
-		String NEW_TAB = "\t";
-
-		result.append(root+"::["+NEW_LINE);
-		
-		if(this.root.hasChildren()){
-			
-			for (Iterator<Feature> i = this.root.getChildren().iterator(); i.hasNext();) {
-				Feature f = i.next();
-				result.append(NEW_TAB+printTree(f));
-			}
-			result.append("]");
-		}
-		return result.toString();
-	}
 }

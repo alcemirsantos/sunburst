@@ -1,34 +1,38 @@
 package br.ufba.dcc.rise.sunburst.model;
 
-public class RSFFeatureModel {
+public class RSFFeatureModel extends Tree {
 
 	private FeatureModel fm;
-	private RSFArc treeRoot;
-	
+
 	public RSFFeatureModel(FeatureModel fm) {
+		super(new RSFArc(fm.getRoot()));
 		this.fm = fm;
-		this.treeRoot = new RSFArc(fm.getRoot());
 	}
 
-	public FeatureModel getFeatureModel(){
+	public FeatureModel getFeatureModel() {
 		return this.fm;
 	}
-	public RSFArc getArcTree(){
-		return this.treeRoot;
+
+	public RSFArc getArcTree() {
+		return (RSFArc) this.root;
 	}
+
 	public int getNumberOfArcs() {
 		return 0;
 	}
 
 	public void buildModel() {
-		this.treeRoot.buildTree();
+		((RSFArc) this.root).buildTree();
 	}
 
-	public int getDepth(){
-		return getNumberOfLevels();
-	}
-	public int getNumberOfLevels() {
-		return this.treeRoot.getNumberOfLevels();
+	// TODO recursively draw tree(root);
+	public void drawSunburst(Feature root) {
+		// TODO draw actual feature;
+		// TODO draw children
+		for (Leaf l : root.getChildren()) {
+			Feature f = (Feature) l;
+			drawSunburst(f);
+		}
 	}
 
 }

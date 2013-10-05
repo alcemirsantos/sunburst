@@ -5,12 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import br.ufba.dcc.rise.sunburst.model.enums.Type;
-
-public class Feature {
+// TODO transform the Feature.class into a FeatureGroup.class
+public class Feature extends Leaf {
 
 	private String name;
 	private Feature father;
-	private List<Feature> children; // TODO transform the Feature.class into a FeatureGroup.class  
 	private Type type;
 	
 	public Feature(){
@@ -18,41 +17,20 @@ public class Feature {
 	}
 
 	public Feature(String name) {
+		super();
 		this.name = name;
-		this.children = new ArrayList<Feature>();
-	}
-
-	public Boolean hasChildren() {
-		return !this.children.isEmpty();
 	}
 
 	public String getName(){
 		return this.name;
 	}
 	
-	public List<Feature> getChildren() {
-		return this.children;
-	}
-
 	public Feature getFather(){
 		return this.father;
 	}
 
 	private void setFather(Feature father) {
 		this.father = father;
-	}
-
-	public int getFamilySize() {
-		int num = 0;
-		if (this.children.isEmpty()) {
-			return num;
-		}else{
-			num = this.children.size();
-			for (Feature f : this.children) {
-				num += f.getFamilySize();
-			}
-		}
-		return num;
 	}
 
 	@Override
@@ -64,8 +42,9 @@ public class Feature {
 	 * adds a mandatory feature.
 	 * @param f
 	 */
-	public void addChild(Feature f) {
-		addChild(f, Type.MANDATORY);
+	@Override
+	public void addChild(Leaf f) {
+		addChild((Feature)f, Type.MANDATORY);
 	}
 
 	public void addChild(Feature child, Type relationship) {
@@ -114,7 +93,8 @@ public class Feature {
 	
 	public List<Feature> getChildrenByType(Type t){
 		List<Feature> list = new ArrayList<Feature>();
-		for (Feature f : this.children) {
+		for (Leaf l : this.children) {
+			Feature f = (Feature) l;
 			if (f.getType() == t) {
 				list.add(f);
 			}

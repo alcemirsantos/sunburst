@@ -7,6 +7,7 @@ import org.junit.Test;
 import br.ufba.dcc.rise.sunburst.factory.FMFactory;
 import br.ufba.dcc.rise.sunburst.model.Feature;
 import br.ufba.dcc.rise.sunburst.model.FeatureModel;
+import br.ufba.dcc.rise.sunburst.model.Leaf;
 import br.ufba.dcc.rise.sunburst.model.RSFArc;
 import br.ufba.dcc.rise.sunburst.model.RSFFeatureModel;
 
@@ -20,7 +21,7 @@ public class RSFFeatureModelTest {
 		
 		rsfFM.buildModel();
 		
-		assertEquals("the model should have the same number of levels of the feature model.", numLevels, rsfFM.getNumberOfLevels());
+		assertEquals("the model should have the same number of levels of the feature model.", numLevels, rsfFM.getDepth());
 	}
 	
 	@Test
@@ -37,7 +38,8 @@ public class RSFFeatureModelTest {
 		int expected = arc.getFeature().getChildren().size();
 		int real = arc.getChildren().size();
 		assertEquals("the model should have the same number of arcs as the the feature model has leaves at this level.", expected, real);
-		for (RSFArc a : arc.getChildren()) {
+		for (Leaf l : arc.getChildren()) {
+			RSFArc a = (RSFArc)l;
 			assertConsistecyBetweenArcsAndFeatures(a);
 		}
 	}
