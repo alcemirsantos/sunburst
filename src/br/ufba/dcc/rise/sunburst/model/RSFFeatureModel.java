@@ -7,6 +7,7 @@ public class RSFFeatureModel extends Tree {
 	public RSFFeatureModel(FeatureModel fm) {
 		super(new RSFArc(fm.getRoot()));
 		this.fm = fm;
+		buildModel();
 	}
 
 	public FeatureModel getFeatureModel() {
@@ -23,16 +24,6 @@ public class RSFFeatureModel extends Tree {
 
 	public void buildModel() {
 		((RSFArc) this.root).buildTree();
-	}
-
-	// TODO recursively draw tree(root);
-	public void drawSunburst(Feature root) {
-		// TODO draw actual feature;
-		// TODO draw children
-		for (Leaf l : root.getChildren()) {
-			Feature f = (Feature) l;
-			drawSunburst(f);
-		}
 	}
 
 }
